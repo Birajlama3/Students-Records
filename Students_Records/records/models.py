@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+class Records(models.Mmodel):
+    name = models.CharField( max_length=50)
+    task = models.CharField()
