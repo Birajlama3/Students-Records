@@ -12,3 +12,11 @@ def dashboard(request):
 def add_task(request):
   template = loader.get_template('add_task.html')
   return HttpResponse(template.render())
+
+def edit_task(request):
+  template = loader.get_template('add_task.html')
+  return HttpResponse(template.render())
+
+def delete_task(request):
+  template = loader.get_template('delete_task.html')
+  return HttpResponse(template.render())
