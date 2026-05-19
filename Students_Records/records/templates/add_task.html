@@ -17,6 +17,7 @@
 </head>
 
 <body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-6 text-slate-800">
+    
 
     <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl shadow-slate-100 border border-slate-100 p-6 sm:p-8">
         
@@ -25,7 +26,7 @@
             <p class="text-sm text-slate-500 mt-1">Log daily progress and work hours seamlessly.</p>
         </div>
 
-        <form method="POST" action="{% url 'add_task' %}" class="space-y-5">
+        <form method="POST" action="{% url 'add_task' %}" class="space-y-5" onS>
             {% csrf_token %}
 
             <div>

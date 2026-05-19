@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'form.css' %}">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <div class="container">
+
+        <h2>Admin Login</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Enter username">
+
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter password">
+
+            <button type="submit">Login</button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>

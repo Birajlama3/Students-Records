@@ -97,3 +97,7 @@ button:hover {
 br {
     display: none;
 }
+/* Input spacing for login only */
+input[type="password"] {
+    letter-spacing: 2px;
+}

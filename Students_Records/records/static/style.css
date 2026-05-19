@@ -1,7 +1,7 @@
 /* Page background */
 body {
     font-family: Arial, sans-serif;
-    background: #f4f6f9;
+    background: whitesmoke;
     margin: 0;
     padding: 0;
 }
@@ -26,7 +26,7 @@ table {
 
 /* Table header */
 th {
-    background: #4CAF50;
+    background:  rgb(106, 26, 163);
     color: white;
     padding: 12px;
     text-transform: uppercase;
@@ -79,7 +79,7 @@ button:hover {
 
 /* Add new record button */
 .add-btn a {
-    background: #4CAF50;
+    background: rgb(106, 26, 163);
     color: white;
     padding: 10px 15px;
     border-radius: 6px;
@@ -88,5 +88,5 @@ button:hover {
 }
 
 .add-btn a:hover {
-    background: #45a049;
+    background: indigo;
 }
