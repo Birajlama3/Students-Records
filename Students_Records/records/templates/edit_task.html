@@ -1,11 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Update Record</title>
 </head>
+
 <body>
-    Edit Task
+
+    <h1>Update Student Task</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Student Name</label>
+        <input type="text" name="name" value="{{ records.name }}">
+        <br><br>
+
+        <label>Stack</label>
+        <input type="text" name="stack" value="{{ records.stack }}">
+        <br><br>
+
+        <label>Task Title</label>
+        <input type="text" name="title" value="{{ records.title }}">
+        <br><br>
+
+        <label>Description</label>
+        <textarea name="description">{{ records.description }}</textarea>
+        <br><br>
+
+        <label>Date</label>
+        <input type="date" name="date" value="{{ records.date }}">
+        <br><br>
+
+        <label>Hours Worked</label>
+        <input type="number" name="hours_worked" value="{{ records.hours_worked }}">
+        <br><br>
+
+        <button type="submit">Update Record</button>
+
+    </form>
+
 </body>
 </html>

@@ -15,9 +15,10 @@
             <th>Name</th>
             <th>Stack</th>
             <th>Title</th>
-            <th>Description</th>
+            <th>Task Done</th>
             <th>Date</th>
             <th>Hours Worked</th>
+            <th>Action</th>
         </tr>
 
         {% for x in myrecords %}
@@ -28,10 +29,18 @@
             <td>{{ x.description }}</td>
             <td>{{ x.date }}</td>
             <td>{{ x.hours_worked }}</td>
+            <td>
+            <a href="{% url 'edit_task' x.id %}">Edit</a>
+
+            <form action="{% url 'delete_task' x.id %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+            </td>
         </tr>
         {% endfor %}
 
     </table>
-
+    <button><a href="{% url 'add_task' %}">Add new records</a></button>
 </body>
 </html>
