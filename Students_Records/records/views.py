@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.template import loader
 from .models import Records
-from django.shortcuts import redirect
+from django.shortcuts import redirect,render
 def records(request):
   myrecords = Records.objects.all().values()
   template = loader.get_template('index.html')
@@ -32,9 +32,7 @@ def add_task(request):
       hours_worked = hours_worked
     )
     records.save()
-
-  template = loader.get_template('add_task.html')
-  return HttpResponse(template.render())
+  return render(request,'add_task.html')
 
 def edit_task(request,id):
   records = Records.objects.get(id=id)
@@ -43,7 +41,7 @@ def edit_task(request,id):
     records.stack = request.POST.get('stack')
     records.title = request.POST.get('title')
     records.description = request.POST.get('description')
-    records.date = request.POST.get('date')
+    records.date = request.POST.get('date') or records.date
     records.hours_worked = request.POST.get('hours_worked')
     records.save()
   template = loader.get_template('edit_task.html')
@@ -53,5 +51,4 @@ def edit_task(request,id):
 
 def delete_task(request,id):
   records = Records.objects.get(id=id)
-  records.delete()
   return redirect('records')

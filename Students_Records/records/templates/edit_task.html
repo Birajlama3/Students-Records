@@ -1,44 +1,85 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Record</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
 
-<body>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-6 text-slate-800">
 
-    <h1>Update Student Task</h1>
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl shadow-slate-100 border border-slate-100 p-6 sm:p-8">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Update Student Task</h1>
+            <p class="text-sm text-slate-500 mt-1">Modify existing details and save changes securely.</p>
+        </div>
 
-    <form method="POST">
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
 
-        {% csrf_token %}
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Student Name</label>
+                <input type="text" name="name" value="{{ records.name }}" required
+                    class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-sm">
+            </div>
 
-        <label>Student Name</label>
-        <input type="text" name="name" value="{{ records.name }}">
-        <br><br>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Stack / Technology</label>
+                <input type="text" name="stack" value="{{ records.stack }}" required
+                    class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-sm">
+            </div>
 
-        <label>Stack</label>
-        <input type="text" name="stack" value="{{ records.stack }}">
-        <br><br>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Task Title</label>
+                <input type="text" name="title" value="{{ records.title }}" required
+                    class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-sm">
+            </div>
 
-        <label>Task Title</label>
-        <input type="text" name="title" value="{{ records.title }}">
-        <br><br>
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Description</label>
+                <textarea name="description" rows="4" required
+                    class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-sm resize-none">{{ records.description }}</textarea>
+            </div>
 
-        <label>Description</label>
-        <textarea name="description">{{ records.description }}</textarea>
-        <br><br>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">Date</label>
+                    <input type="date" name="date" value="{{ records.date }}" required
+                        class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-sm text-slate-600">
+                </div>
 
-        <label>Date</label>
-        <input type="date" name="date" value="{{ records.date }}">
-        <br><br>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-1.5">Hours Worked</label>
+                    <input type="number" name="hours_worked" min="0" max="24" step="0.5" value="{{ records.hours_worked }}" required
+                        class="w-full px-4 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 ease-in-out text-sm">
+                </div>
+            </div>
 
-        <label>Hours Worked</label>
-        <input type="number" name="hours_worked" value="{{ records.hours_worked }}">
-        <br><br>
+            <div class="pt-3 flex flex-col sm:flex-row gap-3">
+                <a href="javascript:history.back()" 
+                    class="w-full sm:w-1/3 text-center bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-3 px-4 rounded-lg transition duration-150 ease-in-out text-sm cursor-pointer">
+                    Cancel
+                </a>
+                
+                <button type="submit" 
+                    class="w-full sm:w-2/3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg shadow-sm hover:shadow transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-sm cursor-pointer">
+                    Update Record
+                </button>
+            </div>
 
-        <button type="submit">Update Record</button>
-
-    </form>
+        </form>
+    </div>
 
 </body>
 </html>
