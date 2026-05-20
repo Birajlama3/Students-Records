@@ -1,0 +1,103 @@
+/* Page background */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #e9f0f7, #f7f9fc);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    /* Center everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card container */
+.container {
+    width: 450px;
+    background: #ffffff;
+    padding: 30px 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    border: 1px solid #eaeaea;
+    transition: 0.3s ease;
+}
+
+/* Hover lift effect */
+.container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* Heading */
+h1, h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #222;
+    font-weight: 600;
+}
+
+/* Labels */
+label {
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+/* Inputs */
+input, textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s;
+    background: #fafafa;
+}
+
+/* Focus effect */
+input:focus, textarea:focus {
+    border-color: #4CAF50;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+}
+
+/* Textarea */
+textarea {
+    height: 90px;
+    resize: none;
+}
+
+/* Button */
+button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 12px;
+    background: linear-gradient(135deg, #4CAF50, #43a047);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Button hover */
+button:hover {
+    background: linear-gradient(135deg, #43a047, #2e7d32);
+    transform: scale(1.02);
+}
+
+/* Remove default br spacing issues */
+br {
+    display: none;
+}
+/* Input spacing for login only */
+input[type="password"] {
+    letter-spacing: 2px;
+}
