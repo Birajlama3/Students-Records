@@ -9,6 +9,22 @@
     {% include 'navbar.html' %}
     <h1>Student Records</h1>
 
+    <div class="search_box" >
+        <form action="" method="GET" >
+            <input type="text" name="search" placeholder="Search Students" value="{{request.GET.search}}"> 
+            {% comment %} // request.GET.search --> the content stays in the search box after searching. {% endcomment %}
+
+            <select name="stack" >
+                <option value="">All stacks</option>
+                <option value="Backend">Backend</option>
+                <option value="Frontend">Frontend</option>
+                <option value="UI/UX">UI/UX</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+
     <table border="1">
 
         <tr>

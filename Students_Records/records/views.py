@@ -9,6 +9,15 @@ from django.contrib import messages
 @login_required 
 def records(request):
   myrecords = Records.objects.all().values()
+  search = request.GET.get('search')
+  stack = request.GET.get('stack')
+
+  if search:
+    myrecords = myrecords.filter(name__icontains = search)
+  if stack:
+
+    myrecords = myrecords.filter(stack__icontains = stack)
+    
   template = loader.get_template('index.html')
   context ={
     "myrecords" : myrecords
@@ -75,3 +84,12 @@ def delete_task(request,id):
   records = Records.objects.get(id=id)
   records.delete()
   return redirect('records')
+
+def filter_records(request):
+  sid = Records.objects.get(id=id)
+  mydata = Records.objects.filter(sid__icontains = sid).values()
+  template = loader.get_template('index.html')
+  context ={
+    "myrecords" : mydata
+  }
+  return HttpResponse(template.render(context,request)) 
