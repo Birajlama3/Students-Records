@@ -5,6 +5,10 @@ from django.shortcuts import redirect,render
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .serializer import RecordsSerializer
+from rest_framework import status
 
 @login_required 
 def records(request):
@@ -85,11 +89,39 @@ def delete_task(request,id):
   records.delete()
   return redirect('records')
 
-def filter_records(request):
-  sid = Records.objects.get(id=id)
-  mydata = Records.objects.filter(sid__icontains = sid).values()
-  template = loader.get_template('index.html')
-  context ={
-    "myrecords" : mydata
-  }
-  return HttpResponse(template.render(context,request)) 
+@api_view(['GET'])
+def api_records(request):
+  records = Records.objects.all()
+  serializer = RecordsSerializer(records, many = True)
+  return Response(serializer.data)
+
+@api_view(['POST'])
+def create_records(request):
+  serializer = RecordsSerializer(data=request.data)
+  if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+  return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET','PUT','DELETE'])
+def records_details(request,id):
+  try:
+        records = Records.objects.get(id=id)
+  except Records.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+      
+  if request.method == 'GET':
+      serializer = RecordsSerializer(records)
+      return Response(serializer.data)
+     
+  elif request.method == 'PUT':
+      serializer = RecordsSerializer(records, data = request.data)
+      if serializer.is_valid():
+          serializer.save()
+          return Response(serializer.data)
+      return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    
+  elif request.method == 'DELETE':
+      records.delete()
+      return Response(status= status.HTTP_204_NO_CONTENT)
+
