@@ -15,18 +15,25 @@
         }
     </style>
 </head>
-    {% include 'navbar.html' %}
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-6 text-slate-800">
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 sm:p-6 text-slate-800 relative">
     
+    <div class="absolute top-4 left-4 sm:top-6 sm:left-6">
+        <a class="flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-blue-600 transition duration-150 ease-in-out" href="{% url 'records' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            Back Home
+        </a>
+    </div>
 
-    <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl shadow-slate-100 border border-slate-100 p-6 sm:p-8">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl shadow-slate-100 border border-slate-100 p-6 sm:p-8 mt-8 sm:mt-0">
         
         <div class="text-center mb-8">
             <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Add Student Daily Task</h1>
             <p class="text-sm text-slate-500 mt-1">Log daily progress and work hours seamlessly.</p>
         </div>
 
-        <form method="POST" action="{% url 'add_task' %}" class="space-y-5" onS>
+        <form method="POST" action="{% url 'add_task' %}" class="space-y-5">
             {% csrf_token %}
 
             <div>
