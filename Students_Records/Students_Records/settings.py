@@ -91,17 +91,25 @@ WSGI_APPLICATION = 'Students_Records.wsgi.application'
 #         default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'
 #     )
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Students_Records',
-        'USER':'postgres',
-        'PASSWORD': '12345678',
-        'HOST' : 'localhost',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'Students_Records',
+#         'USER':'postgres',
+#         'PASSWORD': '12345678',
+#         'HOST' : 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+import dj_database_url
+import os
 
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
