@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'records',
     'rest_framework',
     'api',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,13 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = BASE_DIR/ 'staticfiles'
+
+# Restframework Configuration.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES':(
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+}

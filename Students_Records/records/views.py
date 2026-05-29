@@ -9,13 +9,18 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializer import RecordsSerializer
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.decorators import api_view,permission_classes
+from django.core.paginator import Paginator
 
 @login_required 
 def records(request):
   myrecords = Records.objects.all().values()
   search = request.GET.get('search')
   stack = request.GET.get('stack')
-
+  paginator = Paginator(myrecords, 4) # shows 4 records per page
+  page_number = request.GET.get('page')
+  page_obj =  paginator.get_page(page_number)
   if search:
     myrecords = myrecords.filter(name__icontains = search)
   if stack:
@@ -24,7 +29,8 @@ def records(request):
     
   template = loader.get_template('index.html')
   context ={
-    "myrecords" : myrecords
+    "myrecords" : myrecords,
+    "page_obj" :page_obj,
   }
   return HttpResponse(template.render(context,request))
 
@@ -128,3 +134,11 @@ def records_details(request,id):
       records.delete()
       return Response(status= status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticatedOrReadOnly])
+def post_list(request):
+    if request.method == 'GET':
+        return Response({"message":"Public can view this data"})
+    elif request.method == 'POST':
+        return Response({"message": f"Data created by{request.Records.username}"})

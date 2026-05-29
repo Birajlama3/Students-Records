@@ -91,3 +91,25 @@ button:hover {
     background: indigo;
 }
 
+.pagination{
+    margin-top:20px;
+    text-align:center;
+}
+
+.pagination a{
+    padding:10px 15px;
+    background:#007bff;
+    color:white;
+    text-decoration:none;
+    margin:5px;
+    border-radius:5px;
+}
+
+.pagination a:hover{
+    background:#0056b3;
+}
+
+.pagination span{
+    font-weight:bold;
+    margin:0 10px;
+}
