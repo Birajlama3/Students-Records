@@ -16,17 +16,20 @@ from django.core.paginator import Paginator
 @login_required 
 def records(request):
   myrecords = Records.objects.all().values()
+
   search = request.GET.get('search')
   stack = request.GET.get('stack')
-  paginator = Paginator(myrecords, 4) # shows 4 records per page
-  page_number = request.GET.get('page')
-  page_obj =  paginator.get_page(page_number)
+
   if search:
     myrecords = myrecords.filter(name__icontains = search)
   if stack:
 
     myrecords = myrecords.filter(stack__icontains = stack)
-    
+
+  paginator = Paginator(myrecords, 4) # shows 4 records per page
+  page_number = request.GET.get('page')
+  page_obj =  paginator.get_page(page_number)
+      
   template = loader.get_template('index.html')
   context ={
     "myrecords" : myrecords,
