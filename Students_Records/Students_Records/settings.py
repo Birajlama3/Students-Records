@@ -56,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'records.middleware.SimpleLogMiddleware',
+    'records.middleware.BlockIPMiddleware',
 ]
 
 ROOT_URLCONF = 'Students_Records.urls'

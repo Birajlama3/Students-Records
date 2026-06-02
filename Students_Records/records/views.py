@@ -142,3 +142,6 @@ def post_list(request):
         return Response({"message":"Public can view this data"})
     elif request.method == 'POST':
         return Response({"message": f"Data created by{request.Records.username}"})
+    
+def home_view(request):
+   return HttpResponse("This is Middleware homeview.")
