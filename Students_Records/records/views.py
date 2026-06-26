@@ -12,6 +12,9 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.decorators import api_view,permission_classes
 from django.core.paginator import Paginator
+from django.core.mail import send_mail,EmailMessage
+from django.template.loader import render_to_string
+from django.core.cache import cache
 
 @login_required 
 def records(request):
@@ -37,9 +40,11 @@ def records(request):
   }
   return HttpResponse(template.render(context,request))
 
+
 def dashboard(request):
   template = loader.get_template('dashboard.html')
   return HttpResponse(template.render())
+
 
 def login_view(request):
   if request.method == 'POST':
@@ -81,6 +86,7 @@ def add_task(request):
     messages.success(request,'Task added Successfully')
   return render(request,'add_task.html')
 
+
 def edit_task(request,id):
   records = Records.objects.get(id=id)
   if request.method == 'POST':
@@ -96,16 +102,19 @@ def edit_task(request,id):
       "records": records
     })
 
+
 def delete_task(request,id):
   records = Records.objects.get(id=id)
   records.delete()
   return redirect('records')
+
 
 @api_view(['GET'])
 def api_records(request):
   records = Records.objects.all()
   serializer = RecordsSerializer(records, many = True)
   return Response(serializer.data)
+
 
 @api_view(['POST'])
 def create_records(request):
@@ -114,6 +123,7 @@ def create_records(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
   return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET','PUT','DELETE'])
 def records_details(request,id):
@@ -138,6 +148,7 @@ def records_details(request,id):
       return Response(status= status.HTTP_204_NO_CONTENT)
 
 
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def post_list(request):
@@ -146,5 +157,100 @@ def post_list(request):
     elif request.method == 'POST':
         return Response({"message": f"Data created by{request.Records.username}"})
     
+
 def home_view(request):
    return HttpResponse("This is Middleware homeview.")
+
+
+def set_session(request):
+   request.session['username']= 'Biraj'
+   request.session['course']='Django full course'
+   return HttpResponse("Session data saved successfully.")
+
+def get_session(request):
+  username = request.session.get('username', 'Guest')
+  course = request.session.get('course', 'Not enrolled')
+  return HttpResponse(f"Welcome: {username}, you are learning {course}")
+
+def delete_session(request):
+  #  try:
+  #     del request.session['username']
+  #     del request.session['course']
+  #   except KeyError:
+  #     pass
+  #  return HttpResponse('Session data deleted successfully.')
+   request.session.flush()
+   return HttpResponse("All session data deleted successfully.")
+
+
+def set_cookies(request):
+   response = HttpResponse("Cookie set successfully.")
+   response.set_cookie('username','Biraj',max_age=60*60*24) # cookie valid for 1 day.
+   response.set_cookie('course', 'Django Full course', max_age=60*60*24)
+   return response
+
+def get_cookies(request):
+   username = request.COOKIES.get('username','Guest')
+   course = request.COOKIES.get('course', 'Not enrolled')
+   if 'username' in request.COOKIES:
+      return HttpResponse(f"Username : {username}, course: {course}")
+   else:
+      return HttpResponse("No cookies found")
+   
+
+def delete_cookies(request):
+  response = HttpResponse("Cookies Deleted Successfully")
+  response.delete_cookie("username")
+  response.delete_cookie("course")
+  return response
+
+
+# def send_test_email(request):
+#    subject = 'Welcome to the records'
+#    message = 'Thank you for visiting here.'
+#    from_email = "lamabiraj482@gmail.com"
+#    recipient_list = ['biraj33bit22@kcc.edu.np']
+
+#    send_mail(subject, message, from_email, recipient_list)
+#    return HttpResponse("Test email sent successfully.")
+
+def send_test_email(request):
+  subject = "Simple HTML test mail"
+  message = render_to_string('email/welcome_email.html', {
+    'username': 'Biraj',
+    'course' :'Django Tutorial',
+  })
+  email = EmailMessage(
+    subject,
+    message,
+    "lamabiraj482@gmail.com",
+    ['biraj33bit22@kcc.edu.np  ']
+  )
+  email.content_subtype = "html" # Main content is now html/text
+  email.send()
+  return HttpResponse("Test email sent successfully.")
+
+
+def users_list(request):
+  users = cache.get('users data') # Try to get data from cache
+
+  if not users:
+    print("Cache miss: Fetching data from database")
+    users = Records.objects.all()
+    cache.set('users_data', users, timeout=60) # Cache data for 60 seconds.
+  else:
+    print("Cache hit: Fetching data from cache")
+
+  return render(request, 'index.html', {'users':users})
+
+def user_profile_list(request):
+   users_data = cache.get('users_data')
+
+   if users_data is None:
+      print("Fetching from database")
+      users_data = Records.objects.all()
+      cache.set('users_data', users_data)
+   else:
+      print("Fetching data from cache")
+
+   return render(request, 'index.html', {'users': users_data})

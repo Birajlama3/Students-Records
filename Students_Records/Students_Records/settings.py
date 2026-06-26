@@ -165,3 +165,30 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
 }
+
+# MAIL SETTINGS (GMAIL)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT =  587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'lamabiraj482@gmail.com'
+EMAIL_HOST_PASSWORD = 'zsoy wgqc bkxl tnuy'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# settings.py
+import ssl
+
+# This forces SMTP to ignore certificate verification errors locally
+EMAIL_SSL_CONTEXT = ssl._create_unverified_context()
+
+CACHES = {
+    'default':
+    {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR/ 'my_cache', # Specify cache directory
+        'TIMEOUT': 300, # cache timeout in seconds 
+        'OPTIONS':{
+            'MAX_ENTRIES' : 1000 # maximum number of entries in the cache
+        }
+    }
+}
