@@ -109,7 +109,7 @@ import os
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL", "postgres://postgres:12345678@localhost:5432/Students_Records"),
+        default=os.environ.get("DATABASE_URL", "postgres://postgres:12345678@localhost:5432/students_records"),
         conn_max_age=600
     )
 }
