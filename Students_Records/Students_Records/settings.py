@@ -109,7 +109,7 @@ import os
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get("DATABASE_URL", "postgres://postgres:12345678@localhost:5432/students_records"),
+        default=os.environ.get("DATABASE_URL", "postgres://postgres:12345678@localhost:5432/Students_Records"),
         conn_max_age=600
     )
 }
@@ -184,11 +184,10 @@ EMAIL_SSL_CONTEXT = ssl._create_unverified_context()
 CACHES = {
     'default':
     {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': BASE_DIR/ 'my_cache', # Specify cache directory
-        'TIMEOUT': 300, # cache timeout in seconds 
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': "redis://127.0.0.1:6379/1", # Specify redis cache directory
         'OPTIONS':{
-            'MAX_ENTRIES' : 1000 # maximum number of entries in the cache
+            "CLIENT_CLASS":"django_redis.client.DefaultClient",
         }
     }
 }

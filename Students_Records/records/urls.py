@@ -28,5 +28,4 @@ urlpatterns =[
     path('delete-cookies/',views.delete_cookies,name='delete_cookies'),
     path('send-email/',views.send_test_email,name='send_test_email'),
     path('users-list',views.users_list,name='users_list'),
-    path('users-profile-list', views.user_profile_list,name = 'user_profile_list'),
 ]

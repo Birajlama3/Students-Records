@@ -18,7 +18,14 @@ from django.core.cache import cache
 
 @login_required 
 def records(request):
-  myrecords = Records.objects.all().values()
+  myrecords = cache.get("records")
+  if myrecords is None:
+    print("Cache Miss")
+    myrecords = list(Records.objects.all().values())
+    cache.set("records", myrecords, timeout=60)
+
+  else:
+      print("Cache Hit")
 
   search = request.GET.get('search')
   stack = request.GET.get('stack')
@@ -83,6 +90,7 @@ def add_task(request):
       hours_worked = hours_worked
     )
     records.save()
+    cache.delete("records")
     messages.success(request,'Task added Successfully')
   return render(request,'add_task.html')
 
@@ -97,6 +105,7 @@ def edit_task(request,id):
     records.date = request.POST.get('date') or records.date
     records.hours_worked = request.POST.get('hours_worked')
     records.save()
+    cache.delete("records")
     messages.success(request,'Task Edited Successfully')
   return render(request, 'edit_task.html', {
       "records": records
@@ -106,6 +115,7 @@ def edit_task(request,id):
 def delete_task(request,id):
   records = Records.objects.get(id=id)
   records.delete()
+  cache.delete("records")
   return redirect('records')
 
 
@@ -232,7 +242,7 @@ def send_test_email(request):
 
 
 def users_list(request):
-  users = cache.get('users data') # Try to get data from cache
+  users = cache.get('users_data') # Try to get data from cache
 
   if not users:
     print("Cache miss: Fetching data from database")
@@ -241,16 +251,5 @@ def users_list(request):
   else:
     print("Cache hit: Fetching data from cache")
 
-  return render(request, 'index.html', {'users':users})
+  return render(request, 'index.html', {'myrecords':users})
 
-def user_profile_list(request):
-   users_data = cache.get('users_data')
-
-   if users_data is None:
-      print("Fetching from database")
-      users_data = Records.objects.all()
-      cache.set('users_data', users_data)
-   else:
-      print("Fetching data from cache")
-
-   return render(request, 'index.html', {'users': users_data})
