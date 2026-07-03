@@ -23,18 +23,17 @@ def records(request):
     print("Cache Miss")
     myrecords = list(Records.objects.all().values())
     cache.set("records", myrecords, timeout=60)
-
   else:
       print("Cache Hit")
 
   search = request.GET.get('search')
   stack = request.GET.get('stack')
 
+  # FIX: Filter using Python list comprehensions because 'myrecords' is a list of dictionaries
   if search:
-    myrecords = myrecords.filter(name__icontains = search)
+    myrecords = [r for r in myrecords if search.lower() in str(r.get('name', '')).lower()]
   if stack:
-
-    myrecords = myrecords.filter(stack__icontains = stack)
+    myrecords = [r for r in myrecords if stack.lower() in str(r.get('stack', '')).lower()]
 
   paginator = Paginator(myrecords, 4) # shows 4 records per page
   page_number = request.GET.get('page')
@@ -46,7 +45,6 @@ def records(request):
     "page_obj" :page_obj,
   }
   return HttpResponse(template.render(context,request))
-
 
 def dashboard(request):
   template = loader.get_template('dashboard.html')
